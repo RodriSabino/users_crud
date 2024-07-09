@@ -1,5 +1,6 @@
 import { Controller, Get, HttpCode, Param, Post, Patch, Body, Delete } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { CreateUserDto } from './dtos/create-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -12,15 +13,12 @@ export class UsersController {
 
     @Get(':id')
     async findById(@Param("id") id: string) {
-        return {
-            id,
-            name: "John Doe"
-        }
+        return await this.usersService.findById(id);
     }
 
     @Post()
-    async createUser(@Body() createUserDto: any) {
-        return createUserDto
+    async createUser(@Body() createUserDto: CreateUserDto) {
+        return await this.usersService.createUser(createUserDto);
     }
 
     @Patch(':id')
@@ -29,7 +27,7 @@ export class UsersController {
     }
 
     @Delete(':id')
-    async removeUser(@Param("id") id: string){
+    async deleteById(@Param("id") id: string){
         return { id }
     }
 }
